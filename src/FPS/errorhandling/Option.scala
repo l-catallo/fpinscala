@@ -1,10 +1,11 @@
 package FPS.errorhandling
 
-import FPS.datastructures.{List, Cons, Nil}
-
 /**
   * Created by luca.catallo.293@gmail.com on 09/08/2016.
   */
+
+import FPS.datastructures.{List, Cons, Nil}
+
 
 sealed trait Option[+A] {
   def filter(f: A => Boolean): Option[A] = Option.filter(this)(f)

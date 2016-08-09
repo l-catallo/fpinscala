@@ -6,6 +6,7 @@ package FPS.datastructures
 
 sealed trait List[+A] {
   def ==[B >: A](l: List[B]): Boolean = List.equals(this, l)
+  def ::[B >: A](b: B): List[B] = Cons(b, this)
   def append[B >: A](l: List[B]): List[B] = List.append(this, l)
   def drop(n: Int) = List.drop(this, n)
   def dropWhile(p: A => Boolean) = List.dropWhile(this)(p)

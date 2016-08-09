@@ -40,6 +40,7 @@ object List {
 
   // 3.10
   def foldLeft[A,B](as: List[A], z: B)(f: (B,A) => B): B = {
+    @annotation.tailrec
     def loop(as: List[A], acc: B): B = as match {
       case Cons(h,t) => loop(t, f(acc,h))
       case _ => acc
@@ -66,6 +67,7 @@ object List {
   }
 
   // 3.4
+  @annotation.tailrec
   def drop[A](as: List[A], n: Int): List[A] = (as, n) match {
     case (_, 0) => as
     case (Cons(h, t), _) => drop(t, n-1)
@@ -73,6 +75,7 @@ object List {
   }
 
   // 3.5
+  @annotation.tailrec
   def dropWhile[A](as: List[A])(p: A => Boolean): List[A] = as match {
     case Cons(h, t) => if (p(h)) dropWhile(t)(p) else as
     case Nil => Nil
@@ -80,6 +83,7 @@ object List {
 
   // 3.6
   def init[A](as: List[A]): List[A] = {
+    @annotation.tailrec
     def loop(as: List[A], acc: List[A]): List[A] = as match {
       case Cons(h,Nil) => acc
       case Cons(h,t) => loop(t, Cons(h, acc))
@@ -152,6 +156,7 @@ object List {
 
   // 3.22
   def sumCorresponding(l1: List[Int], l2: List[Int]): List[Int] = {
+    @annotation.tailrec
     def loop(l1: List[Int], l2: List[Int], acc: List[Int]): List[Int] = (l1, l2) match {
       case (Cons(x1,t1),Cons(x2,t2)) => loop(t1, t2, Cons(x1+x2, acc))
       case _ => acc
@@ -161,6 +166,7 @@ object List {
 
   // 3.23
   def zipWith[A,B,C](as: List[A], bs: List[B])(f: (A,B) => C): List[C] = {
+    @annotation.tailrec
     def loop(as: List[A], bs: List[B], acc: List[C]): List[C] = (as, bs) match {
       case (Cons(a,ta),Cons(b,tb)) => loop(ta, tb, Cons(f(a,b), acc))
       case _ => acc
@@ -168,6 +174,7 @@ object List {
     loop(as, bs, Nil)
   }
 
+  @annotation.tailrec
   def startWith[A](as: List[A], ps: List[A]): Boolean = (as, ps) match {
     case (_, Nil) => true
     case (Cons(a, ta), Cons(p, tp)) => p != a || startWith(ta, tp)
@@ -175,6 +182,7 @@ object List {
   }
 
   // 3.24
+  @annotation.tailrec
   def hasSubsequence[A](as: List[A], ps: List[A]): Boolean = as match {
     case Cons(x,t) => startWith(as, ps) || hasSubsequence(t, ps)
     case _ => false
@@ -183,6 +191,7 @@ object List {
   def length[A](as: List[A]): Int =
     foldLeft(as, 0)((n,_) => n+1)
 
+  @annotation.tailrec
   def equals[A](l1: List[A], l2: List[A]): Boolean = (l1, l2) match {
     case (Nil, Nil) => true
     case (Cons(x1,t1), Cons(x2,t2)) => x1 == x2 && equals(t1, t2)

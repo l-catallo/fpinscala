@@ -16,6 +16,8 @@ sealed trait List[+A] {
   def map[B](f: A => B): List[B] = List.map(this)(f)
   def reverse = List.reverse(this)
   def zipWith[B,C](bs: List[B])(f: (A,B) => C): List[C] = List.zipWith(this, bs)(f)
+
+  override def toString: String = this.foldLeft("List(")((s, el) => s + el + ",").dropRight(1) + ")"
 }
 case object Nil extends List[Nothing]
 case class Cons[+A](head: A, tail: List[A]) extends List[A]

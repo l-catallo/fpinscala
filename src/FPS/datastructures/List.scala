@@ -12,7 +12,7 @@ sealed trait List[+A] {
   def dropWhile(p: A => Boolean) = List.dropWhile(this)(p)
   def foldLeft[B](z: B)(f: (B, A) => B) = List.foldLeft(this, z)(f)
   def foldRight[B](z: B)(f: (A, B) => B) = List.foldRightViaFoldLeft(this, z)(f)
-  def length: Int = List.length(this)
+  def length: Int = List.lengthViaFoldLeft(this)
   def map[B](f: A => B): List[B] = List.map(this)(f)
   def reverse = List.reverse(this)
   def zipWith[B,C](bs: List[B])(f: (A,B) => C): List[C] = List.zipWith(this, bs)(f)
@@ -187,9 +187,6 @@ object List {
     case Cons(x,t) => startWith(as, ps) || hasSubsequence(t, ps)
     case _ => false
   }
-
-  def length[A](as: List[A]): Int =
-    foldLeft(as, 0)((n,_) => n+1)
 
   @annotation.tailrec
   def equals[A](l1: List[A], l2: List[A]): Boolean = (l1, l2) match {
